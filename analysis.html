@@ -251,6 +251,41 @@ ul.task-list li input[type="checkbox"] {
 </section>
 
 </main> <!-- /main -->
+<script>
+function burstStickers() {
+  const stickers = ['✨', '💖', '💿', '🎵', '🌸', '🫰', '⭐', '🎶', '🎀', '🎧'];
+  const count = 9; // lightweight count to eliminate lag
+  const fragment = document.createDocumentFragment(); // batch all stickers into a single DOM update
+  
+  for (let i = 0; i < count; i++) {
+    const el = document.createElement('div');
+    el.className = 'popup-sticker';
+    el.textContent = stickers[Math.floor(Math.random() * stickers.length)];
+    el.style.left = (Math.random() * 80 + 10) + 'vw';
+    el.style.top = (Math.random() * 70 + 15) + 'vh';
+    el.style.setProperty('--rot', (Math.random() * 30 - 15) + 'deg');
+    el.style.animationDelay = (Math.random() * 0.15) + 's';
+    
+    fragment.appendChild(el);
+    setTimeout(() => el.remove(), 1600);
+  }
+  
+  document.body.appendChild(fragment);
+}
+
+// Burst smoothly after page content loads
+window.addEventListener('DOMContentLoaded', () => {
+  requestAnimationFrame(burstStickers);
+});
+
+// Trigger burst when clicking navigation links
+document.addEventListener('click', (e) => {
+  const link = e.target.closest('a');
+  if (link && link.getAttribute('href') && !link.getAttribute('href').startsWith('#')) {
+    burstStickers();
+  }
+});
+</script>
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";
